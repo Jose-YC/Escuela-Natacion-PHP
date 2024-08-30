@@ -1,0 +1,159 @@
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+            @if (Route::has('login'))
+                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                    @auth
+                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                    @else
+                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
+
+
+        </div>
+
+
+
+
+para cusar de estorage
+se tiene que ir a la carpeta de filesisten y el valor de local cambiarlo por publico  y luego abrir la terminal
+y ejecutar el comando
+php artisan storage:link  
+
+
+
+
+
+
+              <!-- <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-comments"></i>
+          <span class="badge badge-danger navbar-badge">3</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <a href="#" class="dropdown-item">
+            <!-- Message Start -->
+            <!-- <div class="media">
+              <img src="/Admin_layouts/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  Brad Diesel
+                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                </h3>
+                <p class="text-sm">Call me whenever you can...</p>
+                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+              </div>
+            </div> -->
+            <!-- Message End -->
+          <!-- </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <!-- Message Start -->
+            <!-- <div class="media">
+              <img src="/Admin_layouts/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  John Pierce
+                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                </h3>
+                <p class="text-sm">I got your message bro</p>
+                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+              </div>
+            </div> -->
+            <!-- Message End -->
+          <!-- </a> -->
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item"> -->
+            <!-- Message Start -->
+            <div class="media">
+              <img src="/Admin_layouts/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  Nora Silvester
+                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
+                </h3>
+                <p class="text-sm">The subject goes here</p>
+                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+              </div>
+            </div>
+            <!-- Message End -->
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+        </div>
+      </li> -->
+
+
+
+
+
+       function soloNumeros(e) {
+            key = e.keyCode || e.which;
+            teclado = String.fromCharCode(key);
+
+            numero = "0123456789";
+            especiales = "8-37-38-46";
+            tecla_especial = false;
+            for (var i in especiales) {
+                if (key == especiales[i])
+                    tecla_especial = true;
+            }
+            if (numero.indexOf(teclado) == -1 && !tecla_especial) {
+                return false;
+            }
+
+
+        }
+
+        function soloLetras(e) {
+
+            var key = e.keyCode || e.which,
+                tecla = String.fromCharCode(key).toLowerCase();
+
+            letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
+
+                especiales = [8, 37, 39, 46],
+                tecla_especial = false;
+
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+
+                }
+            }
+
+
+
+            $('#tecnico').on('change', function(){
+            var id = $(this).val();
+            $('#servicio_id').val('');
+            //console.log(empresa_id)
+            $('#servicio_id').val(id);
+            $.ajax({
+                url:"{{ url('/tec/serv') }}"+`/${id}`,
+                method:"get",
+                dataType: "json",
+                success: function (data) {
+                    var jsonData=data
+                    //console.log(jsonData)
+                    $('#servicio').val(jsonData.data.servicio.servicio);
+                    $('#servicio_id').val(jsonData.data.tecnico.servicio_id);
+                    $('#tecnico_id').val(jsonData.data.tecnico.id);
+                    $('#tecnico_id').val(jsonData.data.tecnico.id);
+
+                    //carga el select de la bodega prinicial asociado al servicio del tecnico
+                    var opciones = '';
+                    var opciones = '<option value="">--Seleccione Bodega--</option>';
+                        jsonData.data.bodegas.forEach(element => {
+                            opciones += `<option value="${element.id}">${element.nombre_bodega}</option>`;
+                        });
+                    $("#bodega").html(opciones)
+
+                }
+            })
+        });
